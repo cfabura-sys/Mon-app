@@ -1,0 +1,1561 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MonApp</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#f3f4f6;
+  color:#111;
+}
+
+button,input{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* CONNEXION */
+
+#login{
+  min-height:100vh;
+  padding:30px 22px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  background:white;
+}
+
+.login-logo{
+  text-align:center;
+  font-size:40px;
+  font-weight:bold;
+  margin-bottom:10px;
+}
+
+.login-subtitle{
+  text-align:center;
+  color:#777;
+  margin-bottom:30px;
+}
+
+.login-box{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.login-box input{
+  padding:16px;
+  border:1px solid #ddd;
+  border-radius:14px;
+  outline:none;
+}
+
+.primary{
+  width:100%;
+  padding:16px;
+  border:0;
+  border-radius:14px;
+  background:#111;
+  color:white;
+  font-weight:bold;
+}
+
+.login-note{
+  text-align:center;
+  color:#999;
+  font-size:12px;
+  margin-top:18px;
+}
+
+/* APPLICATION */
+
+.app{
+  max-width:500px;
+  min-height:100vh;
+  margin:auto;
+  background:white;
+  padding-bottom:80px;
+}
+
+header{
+  height:65px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 18px;
+  border-bottom:1px solid #eee;
+  position:sticky;
+  top:0;
+  background:white;
+  z-index:10;
+}
+
+.logo{
+  font-size:23px;
+  font-weight:bold;
+}
+
+.icon{
+  border:0;
+  background:#f1f1f1;
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  font-size:19px;
+}
+
+/* PAGES */
+
+.page{
+  display:none;
+  padding:22px 18px;
+}
+
+.page.active{
+  display:block;
+}
+
+.title{
+  font-size:30px;
+  margin-bottom:7px;
+}
+
+.subtitle{
+  color:#777;
+  margin-bottom:24px;
+}
+
+/* ACCUEIL */
+
+.hero{
+  margin-top:25px;
+  padding:30px 20px;
+  border-radius:24px;
+  background:#f4f4f4;
+  text-align:center;
+}
+
+.hero-icon{
+  font-size:55px;
+  margin-bottom:12px;
+}
+
+.hero h2{
+  font-size:27px;
+  margin-bottom:10px;
+}
+
+.hero p{
+  color:#777;
+  line-height:1.5;
+  margin-bottom:22px;
+}
+
+.quick-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:18px;
+}
+
+.quick{
+  border:0;
+  background:#f4f4f4;
+  padding:18px 10px;
+  border-radius:16px;
+  font-weight:bold;
+}
+
+/* MESSAGES */
+
+.new-chat{
+  width:100%;
+  border:0;
+  padding:15px;
+  border-radius:14px;
+  background:#111;
+  color:white;
+  margin-bottom:15px;
+}
+
+.conversation{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:15px 5px;
+  border-bottom:1px solid #eee;
+}
+
+.avatar{
+  width:50px;
+  height:50px;
+  flex-shrink:0;
+  border-radius:50%;
+  background:#111;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+
+.conversation-info{
+  flex:1;
+}
+
+.conversation-info strong{
+  display:block;
+  margin-bottom:5px;
+}
+
+.conversation-info span{
+  color:#777;
+  font-size:14px;
+}
+
+.chat-button{
+  border:0;
+  background:#111;
+  color:white;
+  width:42px;
+  height:42px;
+  border-radius:12px;
+}
+
+/* CHAT */
+
+.chat-top{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:20px;
+}
+
+.back{
+  border:0;
+  background:#f1f1f1;
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  font-size:20px;
+}
+
+.chat-messages{
+  min-height:300px;
+  max-height:55vh;
+  overflow-y:auto;
+  padding:5px 0;
+}
+
+.message{
+  max-width:78%;
+  padding:11px 14px;
+  border-radius:17px;
+  margin-bottom:10px;
+  line-height:1.4;
+}
+
+.received{
+  background:#eee;
+  margin-right:auto;
+}
+
+.sent{
+  background:#111;
+  color:white;
+  margin-left:auto;
+}
+
+.chat-input{
+  display:flex;
+  gap:8px;
+  margin-top:15px;
+}
+
+.chat-input input{
+  flex:1;
+  border:1px solid #ddd;
+  border-radius:13px;
+  padding:14px;
+  outline:none;
+}
+
+.send{
+  border:0;
+  background:#111;
+  color:white;
+  width:50px;
+  border-radius:13px;
+}
+
+/* RECHERCHE */
+
+.search{
+  display:flex;
+  gap:8px;
+}
+
+.search input{
+  flex:1;
+  padding:14px;
+  border:1px solid #ddd;
+  border-radius:13px;
+  outline:none;
+}
+
+.result{
+  padding:15px;
+  background:#f4f4f4;
+  border-radius:14px;
+  margin-top:10px;
+}
+
+/* PROFIL */
+
+.profile{
+  background:#f4f4f4;
+  padding:30px 20px;
+  border-radius:22px;
+  text-align:center;
+}
+
+.big-avatar{
+  width:95px;
+  height:95px;
+  margin:auto auto 15px;
+  border-radius:50%;
+  background:#111;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:36px;
+}
+
+.profile p{
+  color:#777;
+  margin:8px 0 20px;
+}
+
+.secondary{
+  border:0;
+  background:white;
+  padding:13px 20px;
+  border-radius:12px;
+  font-weight:bold;
+}
+
+/* REGLAGES */
+
+.setting{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 0;
+  border-bottom:1px solid #eee;
+}
+
+.setting span{
+  display:block;
+  color:#777;
+  font-size:13px;
+  margin-top:5px;
+}
+
+.switch{
+  width:50px;
+  height:28px;
+  border:0;
+  border-radius:20px;
+  background:#ccc;
+  position:relative;
+}
+
+.switch:after{
+  content:"";
+  position:absolute;
+  width:22px;
+  height:22px;
+  background:white;
+  border-radius:50%;
+  top:3px;
+  left:4px;
+}
+
+.switch.on{
+  background:#111;
+}
+
+.switch.on:after{
+  left:24px;
+}
+
+/* BADGE */
+
+.badge-box{
+  display:none;
+  margin-top:20px;
+  padding:22px;
+  background:#f4f4f4;
+  border-radius:18px;
+  text-align:center;
+}
+
+.badge-box .badge-icon{
+  font-size:48px;
+}
+
+/* ADMIN */
+
+.admin-box{
+  display:none;
+  margin:20px 0;
+  padding:20px;
+  background:#f4f4f4;
+  border-radius:18px;
+}
+
+.admin-box input{
+  width:100%;
+  padding:14px;
+  border:1px solid #ddd;
+  border-radius:12px;
+  margin-bottom:10px;
+  outline:none;
+}
+
+.admin-button{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:12px;
+  color:white;
+  margin-top:8px;
+  font-weight:bold;
+}
+
+.warning{
+  background:#e59b00;
+}
+
+.ban{
+  background:#d00000;
+}
+
+.unban{
+  background:#333;
+}
+
+.admin-history{
+  margin-top:15px;
+}
+
+.admin-item{
+  background:white;
+  padding:12px;
+  border-radius:10px;
+  margin-top:8px;
+  font-size:14px;
+}
+
+/* NAVIGATION */
+
+nav{
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:500px;
+  height:70px;
+  background:white;
+  border-top:1px solid #eee;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  z-index:20;
+}
+
+nav button{
+  border:0;
+  background:transparent;
+  color:#888;
+  font-size:20px;
+}
+
+nav button span{
+  display:block;
+  font-size:10px;
+  margin-top:3px;
+}
+
+nav button.active{
+  color:#111;
+  font-weight:bold;
+}
+
+/* TOAST */
+
+#toast{
+  display:none;
+  position:fixed;
+  top:80px;
+  left:50%;
+  transform:translateX(-50%);
+  width:calc(100% - 40px);
+  max-width:460px;
+  padding:14px;
+  border-radius:13px;
+  background:#111;
+  color:white;
+  text-align:center;
+  z-index:100;
+}
+
+/* MODE SOMBRE */
+
+body.dark{
+  background:#111;
+  color:white;
+}
+
+body.dark .app,
+body.dark header,
+body.dark nav{
+  background:#181818;
+  color:white;
+}
+
+body.dark .hero,
+body.dark .quick,
+body.dark .profile,
+body.dark .result,
+body.dark .admin-box{
+  background:#242424;
+}
+
+body.dark .subtitle,
+body.dark .conversation-info span,
+body.dark .profile p,
+body.dark .setting span{
+  color:#aaa;
+}
+
+body.dark input{
+  background:#222;
+  color:white;
+  border-color:#444;
+}
+
+body.dark .icon,
+body.dark .back,
+body.dark .secondary{
+  background:#333;
+  color:white;
+}
+</style>
+</head>
+
+<body>
+
+<!-- CONNEXION -->
+
+<div id="login">
+
+  <div class="login-logo">
+    MonApp
+  </div>
+
+  <p class="login-subtitle">
+    Connecte-toi pour continuer
+  </p>
+
+  <div class="login-box">
+
+    <input
+      id="loginName"
+      type="text"
+      placeholder="Ton prénom">
+
+    <input
+      id="loginEmail"
+      type="email"
+      placeholder="Ton adresse e-mail">
+
+    <button class="primary" onclick="login()">
+      Se connecter
+    </button>
+
+  </div>
+
+  <p class="login-note">
+    Version de démonstration
+  </p>
+
+</div>
+
+
+<!-- APPLICATION -->
+
+<div id="application" class="app hidden">
+
+<header>
+
+  <div class="logo">
+    MonApp
+  </div>
+
+  <button class="icon"
+    onclick="toast('Notifications 🔔')">
+    🔔
+  </button>
+
+</header>
+
+
+<!-- ACCUEIL -->
+
+<section id="home" class="page active">
+
+  <h1 class="title">
+    Accueil
+  </h1>
+
+  <p class="subtitle">
+    Content de te revoir 👋
+  </p>
+
+  <div class="hero">
+
+    <div class="hero-icon">
+      🚀
+    </div>
+
+    <h2 id="welcomeName">
+      Bienvenue !
+    </h2>
+
+    <p>
+      Ton espace personnel est prêt.
+    </p>
+
+    <button class="primary"
+      onclick="toast('Bienvenue sur MonApp 🎉')">
+      Commencer
+    </button>
+
+  </div>
+
+  <div class="quick-grid">
+
+    <button class="quick"
+      onclick="showPage('messages')">
+      💬<br>Messages
+    </button>
+
+    <button class="quick"
+      onclick="showPage('searchPage')">
+      🔍<br>Recherche
+    </button>
+
+    <button class="quick"
+      onclick="showPage('profile')">
+      👤<br>Profil
+    </button>
+
+    <button class="quick"
+      onclick="showPage('settings')">
+      ⚙️<br>Réglages
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- MESSAGES -->
+
+<section id="messages" class="page">
+
+  <h1 class="title">
+    Messages
+  </h1>
+
+  <p class="subtitle">
+    Tes conversations.
+  </p>
+
+  <button class="new-chat"
+    onclick="newConversation()">
+    ➕ Nouvelle conversation
+  </button>
+
+  <div id="conversationList">
+
+    <div class="conversation">
+
+      <div class="avatar">
+        S
+      </div>
+
+      <div class="conversation-info">
+        <strong>Sarah</strong>
+        <span>Salut 👋</span>
+      </div>
+
+      <button class="chat-button"
+        onclick="openChat('Sarah')">
+        💬
+      </button>
+
+    </div>
+
+    <div class="conversation">
+
+      <div class="avatar">
+        A
+      </div>
+
+      <div class="conversation-info">
+        <strong>Alex</strong>
+        <span>À bientôt !</span>
+      </div>
+
+      <button class="chat-button"
+        onclick="openChat('Alex')">
+        💬
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- CHAT -->
+
+<section id="chat" class="page">
+
+  <div class="chat-top">
+
+    <button class="back"
+      onclick="showPage('messages')">
+      ←
+    </button>
+
+    <div class="avatar">
+      <span id="chatAvatar">
+        S
+      </span>
+    </div>
+
+    <strong id="chatName">
+      Sarah
+    </strong>
+
+  </div>
+
+  <div id="chatMessages"
+    class="chat-messages">
+
+    <div class="message received">
+      Salut 👋
+    </div>
+
+    <div class="message sent">
+      Salut ! Ça va ?
+    </div>
+
+  </div>
+
+  <div class="chat-input">
+
+    <input
+      id="messageInput"
+      type="text"
+      placeholder="Écrire un message..."
+      onkeydown="enterMessage(event)">
+
+    <button class="send"
+      onclick="sendMessage()">
+      ➤
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- RECHERCHE -->
+
+<section id="searchPage" class="page">
+
+  <h1 class="title">
+    Recherche
+  </h1>
+
+  <p class="subtitle">
+    Recherche des personnes.
+  </p>
+
+  <div class="search">
+
+    <input
+      id="searchInput"
+      type="text"
+      placeholder="Rechercher..."
+      oninput="search()">
+
+  </div>
+
+  <div id="results"></div>
+
+</section>
+
+
+<!-- PROFIL -->
+
+<section id="profile" class="page">
+
+  <h1 class="title">
+    Profil
+  </h1>
+
+  <p class="subtitle">
+    Ton espace personnel.
+  </p>
+
+  <div class="profile">
+
+    <div class="big-avatar">
+      👤
+    </div>
+
+    <h2 id="profileName">
+      Utilisateur
+    </h2>
+
+    <p id="profileEmail">
+      Aucun e-mail
+    </p>
+
+    <button class="secondary"
+      onclick="editName()">
+      Modifier le nom
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- REGLAGES -->
+
+<section id="settings" class="page">
+
+  <h1 class="title">
+    Paramètres
+  </h1>
+
+  <p class="subtitle">
+    Personnalise ton application.
+  </p>
+
+  <div class="setting">
+
+    <div>
+      <strong>Notifications</strong>
+      <span>Recevoir les notifications</span>
+    </div>
+
+    <button
+      id="notificationSwitch"
+      class="switch"
+      onclick="toggleSwitch('notificationSwitch')">
+    </button>
+
+  </div>
+
+  <div class="setting">
+
+    <div>
+      <strong>Mode sombre</strong>
+      <span>Modifier l'apparence</span>
+    </div>
+
+    <button
+      id="darkSwitch"
+      class="switch"
+      onclick="toggleDark()">
+    </button>
+
+  </div>
+
+
+  <!-- BADGE 100K -->
+
+  <div id="badge100k" class="badge-box">
+
+    <div class="badge-icon">
+      🏆
+    </div>
+
+    <h2>
+      Badge 100K
+    </h2>
+
+    <p>
+      Félicitations ! Tu as atteint 100 000 vues.
+    </p>
+
+  </div>
+
+
+  <!-- ADMIN -->
+
+  <button
+    class="primary"
+    style="margin-top:20px;"
+    onclick="openAdmin()">
+    🛡️ Administration
+  </button>
+
+
+  <div id="adminPanel" class="admin-box">
+
+    <h2>
+      🛡️ Administration
+    </h2>
+
+    <p style="color:#777;margin:8px 0 18px;">
+      Gestion des utilisateurs
+    </p>
+
+    <input
+      id="adminUser"
+      type="text"
+      placeholder="Nom de l'utilisateur">
+
+    <input
+      id="adminReason"
+      type="text"
+      placeholder="Raison">
+
+    <button
+      class="admin-button warning"
+      onclick="adminWarn()">
+      ⚠️ Avertir
+    </button>
+
+    <button
+      class="admin-button ban"
+      onclick="adminBan()">
+      🚫 Bannir
+    </button>
+
+    <button
+      class="admin-button unban"
+      onclick="adminUnban()">
+      🔓 Débannir
+    </button>
+
+    <div id="adminHistory"
+      class="admin-history">
+    </div>
+
+  </div>
+
+
+  <button class="primary"
+    style="margin-top:15px;"
+    onclick="logout()">
+    Se déconnecter
+  </button>
+
+</section>
+
+
+<!-- NAVIGATION -->
+
+<nav>
+
+  <button id="nav-home"
+    class="active"
+    onclick="showPage('home')">
+    🏠
+    <span>Accueil</span>
+  </button>
+
+  <button id="nav-messages"
+    onclick="showPage('messages')">
+    💬
+    <span>Messages</span>
+  </button>
+
+  <button id="nav-searchPage"
+    onclick="showPage('searchPage')">
+    🔍
+    <span>Recherche</span>
+  </button>
+
+  <button id="nav-profile"
+    onclick="showPage('profile')">
+    👤
+    <span>Profil</span>
+  </button>
+
+  <button id="nav-settings"
+    onclick="showPage('settings')">
+    ⚙️
+    <span>Réglages</span>
+  </button>
+
+</nav>
+
+</div>
+
+
+<div id="toast"></div>
+
+
+<script>
+
+/* CONNEXION */
+
+function login(){
+
+  const name =
+    document.getElementById("loginName").value.trim();
+
+  const email =
+    document.getElementById("loginEmail").value.trim();
+
+  if(name === ""){
+
+    toast("Entre ton prénom.");
+
+    return;
+  }
+
+  document.getElementById("login")
+    .classList.add("hidden");
+
+  document.getElementById("application")
+    .classList.remove("hidden");
+
+  document.getElementById("welcomeName")
+    .textContent =
+    "Bienvenue " + name + " 👋";
+
+  document.getElementById("profileName")
+    .textContent = name;
+
+  document.getElementById("profileEmail")
+    .textContent =
+    email || "Aucun e-mail";
+
+  localStorage.setItem("name",name);
+  localStorage.setItem("email",email);
+
+  toast("Connexion réussie ✓");
+}
+
+
+/* DECONNEXION */
+
+function logout(){
+
+  localStorage.removeItem("name");
+  localStorage.removeItem("email");
+
+  document.getElementById("application")
+    .classList.add("hidden");
+
+  document.getElementById("login")
+    .classList.remove("hidden");
+
+  toast("Déconnexion réussie");
+}
+
+
+/* NAVIGATION */
+
+function showPage(page){
+
+  document.querySelectorAll(".page")
+    .forEach(function(p){
+
+      p.classList.remove("active");
+
+    });
+
+  document.getElementById(page)
+    .classList.add("active");
+
+  document.querySelectorAll("nav button")
+    .forEach(function(b){
+
+      b.classList.remove("active");
+
+    });
+
+  const nav =
+    document.getElementById("nav-" + page);
+
+  if(nav){
+    nav.classList.add("active");
+  }
+
+  window.scrollTo(0,0);
+}
+
+
+/* CHAT */
+
+function openChat(name){
+
+  document.getElementById("chatName")
+    .textContent = name;
+
+  document.getElementById("chatAvatar")
+    .textContent =
+    name.charAt(0).toUpperCase();
+
+  showPage("chat");
+}
+
+
+function sendMessage(){
+
+  const input =
+    document.getElementById("messageInput");
+
+  const text =
+    input.value.trim();
+
+  if(text === ""){
+    return;
+  }
+
+  const message =
+    document.createElement("div");
+
+  message.className =
+    "message sent";
+
+  message.textContent = text;
+
+  document.getElementById("chatMessages")
+    .appendChild(message);
+
+  input.value = "";
+
+  const area =
+    document.getElementById("chatMessages");
+
+  area.scrollTop =
+    area.scrollHeight;
+
+  toast("Message envoyé ✓");
+}
+
+
+function enterMessage(event){
+
+  if(event.key === "Enter"){
+    sendMessage();
+  }
+}
+
+
+/* NOUVELLE CONVERSATION */
+
+function newConversation(){
+
+  const name =
+    prompt("Nom de la personne :");
+
+  if(!name || name.trim() === ""){
+    return;
+  }
+
+  const cleanName =
+    name.trim();
+
+  const item =
+    document.createElement("div");
+
+  item.className =
+    "conversation";
+
+  item.innerHTML =
+    '<div class="avatar">' +
+    cleanName.charAt(0).toUpperCase() +
+    '</div>' +
+
+    '<div class="conversation-info">' +
+    '<strong>' +
+    cleanName +
+    '</strong>' +
+    '<span>Nouvelle conversation</span>' +
+    '</div>' +
+
+    '<button class="chat-button">💬</button>';
+
+  item.querySelector("button")
+    .onclick = function(){
+
+      openChat(cleanName);
+
+    };
+
+  document.getElementById("conversationList")
+    .prepend(item);
+
+  toast("Conversation créée ✓");
+}
+
+
+/* RECHERCHE */
+
+function search(){
+
+  const text =
+    document.getElementById("searchInput")
+    .value
+    .trim()
+    .toLowerCase();
+
+  const results =
+    document.getElementById("results");
+
+  if(text === ""){
+
+    results.innerHTML = "";
+
+    return;
+  }
+
+  const people = [
+    "Sarah",
+    "Alex",
+    "Utilisateur"
+  ];
+
+  const found =
+    people.filter(function(person){
+
+      return person
+        .toLowerCase()
+        .includes(text);
+
+    });
+
+  if(found.length === 0){
+
+    results.innerHTML =
+      '<div class="result">' +
+      'Aucun résultat trouvé.' +
+      '</div>';
+
+    return;
+  }
+
+  results.innerHTML =
+    found.map(function(person){
+
+      return (
+        '<div class="result">' +
+        '<strong>' +
+        person +
+        '</strong><br>' +
+        '<span>Profil trouvé</span>' +
+        '</div>'
+      );
+
+    }).join("");
+}
+
+
+/* PROFIL */
+
+function editName(){
+
+  const current =
+    document.getElementById("profileName")
+    .textContent;
+
+  const name =
+    prompt("Nouveau nom :",current);
+
+  if(name && name.trim() !== ""){
+
+    const clean =
+      name.trim();
+
+    document.getElementById("profileName")
+      .textContent = clean;
+
+    document.getElementById("welcomeName")
+      .textContent =
+      "Bienvenue " + clean + " 👋";
+
+    localStorage.setItem("name",clean);
+
+    toast("Nom modifié ✓");
+  }
+}
+
+
+/* PARAMETRES */
+
+function toggleSwitch(id){
+
+  document.getElementById(id)
+    .classList.toggle("on");
+
+  toast("Paramètre modifié ⚙️");
+}
+
+
+function toggleDark(){
+
+  const button =
+    document.getElementById("darkSwitch");
+
+  button.classList.toggle("on");
+
+  document.body.classList.toggle("dark");
+
+  if(document.body.classList.contains("dark")){
+
+    toast("Mode sombre activé 🌙");
+
+  }else{
+
+    toast("Mode clair activé ☀️");
+  }
+}
+
+
+/* BADGE 100K */
+
+function checkViews(views){
+
+  if(Number(views) >= 100000){
+
+    document.getElementById("badge100k")
+      .style.display = "block";
+
+    toast("🏆 Badge 100K débloqué !");
+  }
+}
+
+
+/* ADMIN */
+
+function openAdmin(){
+
+  const code =
+    prompt("Code administrateur :");
+
+  if(code === "1234"){
+
+    document.getElementById("adminPanel")
+      .style.display = "block";
+
+    toast("Accès administrateur ✓");
+
+  }else{
+
+    alert("Code incorrect.");
+
+  }
+}
+
+
+function getAdminUser(){
+
+  const user =
+    document.getElementById("adminUser")
+    .value.trim();
+
+  if(user === ""){
+
+    alert("Entre le nom de l'utilisateur.");
+
+    return null;
+  }
+
+  return user;
+}
+
+
+function getReason(){
+
+  const reason =
+    document.getElementById("adminReason")
+    .value.trim();
+
+  return reason || "Aucune raison indiquée";
+}
+
+
+function addAdminHistory(text){
+
+  const history =
+    document.getElementById("adminHistory");
+
+  const item =
+    document.createElement("div");
+
+  item.className =
+    "admin-item";
+
+  item.textContent = text;
+
+  history.prepend(item);
+}
+
+
+function adminWarn(){
+
+  const user =
+    getAdminUser();
+
+  if(!user){
+    return;
+  }
+
+  const reason =
+    getReason();
+
+  addAdminHistory(
+    "⚠️ Avertissement — " +
+    user +
+    " — " +
+    reason
+  );
+
+  toast("Utilisateur averti ⚠️");
+}
+
+
+function adminBan(){
+
+  const user =
+    getAdminUser();
+
+  if(!user){
+    return;
+  }
+
+  const reason =
+    getReason();
+
+  addAdminHistory(
+    "🚫 Bannissement — " +
+    user +
+    " — " +
+    reason
+  );
+
+  toast("Utilisateur banni 🚫");
+}
+
+
+function adminUnban(){
+
+  const user =
+    getAdminUser();
+
+  if(!user){
+    return;
+  }
+
+  addAdminHistory(
+    "🔓 Débannissement — " +
+    user
+  );
+
+  toast("Utilisateur débanni ✓");
+}
+
+
+/* NOTIFICATION */
+
+function toast(message){
+
+  const box =
+    document.getElementById("toast");
+
+  box.textContent =
+    message;
+
+  box.style.display =
+    "block";
+
+  setTimeout(function(){
+
+    box.style.display =
+      "none";
+
+  },2200);
+}
+
+
+/* CHARGEMENT */
+
+window.onload = function(){
+
+  const name =
+    localStorage.getItem("name");
+
+  const email =
+    localStorage.getItem("email");
+
+  if(name){
+
+    document.getElementById("login")
+      .classList.add("hidden");
+
+    document.getElementById("application")
+      .classList.remove("hidden");
+
+    document.getElementById("welcomeName")
+      .textContent =
+      "Bienvenue " + name + " 👋";
+
+    document.getElementById("profileName")
+      .textContent = name;
+
+    document.getElementById("profileEmail")
+      .textContent =
+      email || "Aucun e-mail";
+  }
+
+};
+
+</script>
+
+</body>
+</html>
